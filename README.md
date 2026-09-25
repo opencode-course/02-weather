@@ -7,7 +7,7 @@ El objetivo de esta aplicación es que creemos una aplicación de consola que pi
 - Ingresar el nombre de una ciudad.
 - Guardar la ciudad por defecto.
 - Registrar varias otras ciudades para buscar el clima en esas otras ciudades.
-- Consultar el pronóstico de temperaturas mínimas y máximas para 7 días de la ciudad default.
+- Consultar el pronóstico de temperaturas mínimas y máximas para 7 días de cualquier ciudad guardada.
 
 ## Stack
 
@@ -43,7 +43,7 @@ Esta es la apariencia que deseamos crear
   3. Buscar y agregar ciudad
   4. Eliminar ciudad
   5. Establecer ciudad default
-  6. Pronóstico 7 días (ciudad default)
+  6. Pronóstico 7 días
   8. Ajustes (°C)
   9. Salir
 ════════════════════════════════════════

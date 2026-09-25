@@ -12,7 +12,6 @@ export async function withSpinner<T>(message: string, task: () => Promise<T>): P
 
   render();
   const interval = setInterval(render, 100);
-
   try {
     return await task();
   } finally {

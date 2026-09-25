@@ -9,7 +9,6 @@ let queuedLines: string[] = [];
 async function readLine(): Promise<string> {
   while (queuedLines.length === 0) {
     const { done, value } = await reader.read();
-    // EOF (Ctrl+D o pipe cerrado): salir limpiamente
     if (done) process.exit(0);
     buffer += decoder.decode(value);
     const parts = buffer.split("\n");

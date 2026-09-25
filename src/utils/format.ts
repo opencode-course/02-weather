@@ -1,12 +1,12 @@
-import type { GeoLocation, Units } from "./types";
+import type { GeoLocation } from "../types/City";
+import type { Units } from "../types/Weather";
 
 export function formatUnits(units: Units): string {
   return units === "celsius" ? "°C" : "°F";
 }
 
 export function formatLocation(location: GeoLocation): string {
-  const parts = [location.name, location.admin1, location.country].filter(Boolean);
-  return parts.join(", ");
+  return [location.name, location.admin1, location.country].filter(Boolean).join(", ");
 }
 
 export function formatDay(date: string): string {

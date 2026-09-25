@@ -16,22 +16,21 @@ No hay tests aún; cuando se agreguen, usar `bun test`.
 
 ## Arquitectura
 
-- Entrada: `index.ts` carga el estado y ejecuta el loop del menú; `src/options.ts` es la única fuente de verdad para las opciones, sus teclas y sus acciones.
+- Entrada: `src/index.ts` carga el estado y ejecuta el loop del menú; `src/presentation/menu.ts` contiene el registro único de opciones, teclas y acciones.
 - Módulos en `src/`:
-  - `types.ts` — tipos compartidos de estado, ciudad, geolocalización, pronóstico diario y unidades.
-  - `menu.ts` — renderizado del menú a partir del registro de opciones.
-  - `options.ts` — registro central de opciones; agregar una opción requiere implementar su acción y registrarla aquí.
-  - `actions/` — acciones agrupadas por dominio: `weather.ts`, `cities.ts` y `settings.ts`.
-  - `format.ts` — formato compartido de ubicaciones y unidades.
-  - `api.ts` — funciones para consultar geocoding, clima actual y pronóstico diario de OpenMeteo.
-  - `storage.ts` — carga y guardado del estado con `Bun.file` y `Bun.write`.
-  - `prompts.ts` — lectura de entrada interactiva por stdin.
-  - `colors.ts` — colores ANSI del menú (cyan), temperatura (amarillo) y mensajes de éxito/error (verde/rojo); desactivados sin TTY o con `NO_COLOR`.
+  - `actions/` — una acción por archivo; `listCities.ts` comparte el listado y la selección de ciudades.
+  - `api/` — `geocoding.ts` y `weather.ts` consultan OpenMeteo; `client.ts` comparte el cliente HTTP.
+  - `presentation/` — menú, entrada por stdin, salida y spinner.
+  - `storage/` — `citiesStorage.ts` y `settingsStorage.ts` guardan sus secciones mediante `stateFile.ts` en un único `data.json`.
+  - `types/` — contratos compartidos de ciudad, clima, opciones del menú y estado.
+  - `utils/` — formato, constantes y colores ANSI (cyan para menú, amarillo para temperatura, verde/rojo para mensajes); colores desactivados sin TTY o con `NO_COLOR`.
+  - `index.ts` — punto de entrada de la CLI.
 - APIs (sin API key):
   1. Geocoding: `https://geocoding-api.open-meteo.com/v1/search?name=<ciudad>&count=5&language=es&format=json`
   2. Forecast actual: `https://api.open-meteo.com/v1/forecast?latitude=<lat>&longitude=<lon>&current=temperature_2m&temperature_unit=<celsius|fahrenheit>`
   3. Forecast diario: `https://api.open-meteo.com/v1/forecast?latitude=<lat>&longitude=<lon>&daily=temperature_2m_min,temperature_2m_max&forecast_days=7&temperature_unit=<celsius|fahrenheit>&timezone=auto`
 - Estado persistente en `data.json`, relativo al directorio actual de ejecución: ciudad default (`defaultCityId`), ciudades guardadas (`cities`) y unidades (`units`). Si el archivo no existe o está corrupto, la app inicia con el estado vacío y unidades Celsius.
+- El pronóstico de 7 días permite seleccionar cualquier ciudad guardada.
 
 ## Convenciones
 
